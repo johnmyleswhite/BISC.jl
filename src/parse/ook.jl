@@ -30,13 +30,12 @@ macro check(i, s, chr, linenumber, chrnumber, validvalues)
     end
 end
 
-function lex(s::ByteString)
-    tokens = Array(OokToken, 0)
-
-    i = nextind(s, 0)
-
-    linenumber, chrnumber = 1, 0
-
+function nexttoken(
+    s::ByteString,
+    i::Integer,
+    linenumber::Integer,
+    chrnumber::Integer
+)
     while i <= endof(s)
         chr = s[i]
         chrnumber += 1
@@ -51,7 +50,7 @@ function lex(s::ByteString)
                 chr = s[i]
                 chrnumber += 1
             else
-                return tokens
+                return NULL, i, linenumber, chrnumber
             end
         end
 
@@ -60,17 +59,17 @@ function lex(s::ByteString)
         @check(i, s, chr, linenumber, chrnumber, ['.', '?', '!'])
 
         if chr == '.'
-            push!(tokens, PERIOD)
+            return PERIOD, i, linenumber, chrnumber
         elseif chr == '?'
-            push!(tokens, QUESTION)
+            return QUESTION, i, linenumber, chrnumber
         elseif chr == '!'
-            push!(tokens, EXCLAMATION)
+            return EXCLAMATION, i, linenumber, chrnumber
         end
 
         i = nextind(s, i)
     end
 
-    return tokens
+    return NULL, i, linenumber, chrnumber
 end
 
 function getop(token1::OokToken, token2::OokToken)
@@ -101,24 +100,36 @@ function getop(token1::OokToken, token2::OokToken)
     end
 end
 
-function parseook(tokens::Vector{OokToken})
-    n_tokens = length(tokens)
+function parseook(s::ByteString)
+    i = nextind(s, 0)
+    linenumber, chrnumber = 1, 0
 
-    if mod(n_tokens, 2) != 0
-        msg = "At least one Ook token is missing from input"
-        throw(ArgumentError(msg))
-    end
+    ops = Array(BISCOp, 0)
 
-    n_ops = fld(n_tokens, 2)
+    while i <= endof(s)
+        token1, i, linenumber, chrnumber = nexttoken(
+            s,
+            i,
+            linenumber,
+            chrnumber
+        )
+        if token1 == NULL
+            return ops
+        end
 
-    ops = Array(BISCOp, n_ops)
+        token2, i, linenumber, chrnumber = nexttoken(
+            s,
+            i,
+            linenumber,
+            chrnumber
+        )
+        if token2 == NULL
+            msg = "At least one Ook token is missing from input"
+            throw(ArgumentError(msg))
+        end
 
-    for i in 1:n_ops
-        j = 2 * (i - 1)
-        ops[i] = getop(tokens[j + 1], tokens[j + 2])
+        push!(ops, getop(token1, token2))
     end
 
     return ops
 end
-
-parseook(s::ByteString) = parseook(lex(s))
