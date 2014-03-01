@@ -19,7 +19,7 @@ const OP7 = BISCOp(0x07)
 const OP8 = BISCOp(0x08)
 
 function Base.string(op::BISCOp, as::Symbol)
-    strings = [
+    const strings = [
         :brainfuck => [
             ">",
             "<",

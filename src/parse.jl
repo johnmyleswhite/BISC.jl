@@ -1,4 +1,4 @@
-function parse(s::String; as::Symbol = :ook)
+function parse(s::String; as::Symbol = :brainfuck)
 	parsers = [
 		:ook => parseook,
 		:brainfuck => parsebrainfuck,

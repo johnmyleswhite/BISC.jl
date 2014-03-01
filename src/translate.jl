@@ -28,7 +28,8 @@ function translate(
         println(io, "char *ptr = memory;")
     elseif as == :julia
         println(io, "memory = zeros(Uint8, 30_000)")
-        println(io, "ptr = 1\n")
+        println(io, "ptr = 1")
+        println()
     end
 
     for op in ops
