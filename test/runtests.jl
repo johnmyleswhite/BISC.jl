@@ -8,7 +8,8 @@ my_tests = [
     "parse.jl",
     "translate.jl",
     "interpret.jl",
-    "programs.jl"
+    "programs.jl",
+    "optimize.jl",
 ]
 
 println("Running tests:")
