@@ -1,12 +1,12 @@
 immutable BISCOp
-	code::Uint8
-	function BISCOp(code::Integer)
-		if !(oftype(code, 1) <= code <= oftype(code, 8))
-			throw(ArgumentError("Invalid op code"))
-		else
-			new(uint8(code))
-		end
-	end
+    code::Uint8
+    function BISCOp(code::Integer)
+        if !(oftype(code, 1) <= code <= oftype(code, 8))
+            throw(ArgumentError("Invalid op code"))
+        else
+            new(uint8(code))
+        end
+    end
 end
 
 const OP1 = BISCOp(0x01)
@@ -41,25 +41,25 @@ function Base.string(op::BISCOp, as::Symbol)
             "Ook? Ook!",   
         ],
         :c => [
-			"++ptr;",
-			"--ptr;",
-			"++*ptr;",
-			"--*ptr;",
-			"*ptr = getchar();",
-			"putchar(*ptr);",
-			"while (*ptr) {",
-			"}",
-		],
+            "++ptr;",
+            "--ptr;",
+            "++*ptr;",
+            "--*ptr;",
+            "*ptr = getchar();",
+            "putchar(*ptr);",
+            "while (*ptr) {",
+            "}",
+        ],
         :julia => [
-			"ptr += 1",
-			"ptr -= 1",
-			"memory[ptr] += 1",
-			"memory[ptr] -= 1",
-			"memory[ptr] = read(io_in, Uint8)",
-			"print(io_out, char(memory[ptr]))",
-			"while (memory[ptr] != 0)",
-			"end",
-		],
+            "ptr += 1",
+            "ptr -= 1",
+            "memory[ptr] += 1",
+            "memory[ptr] -= 1",
+            "memory[ptr] = read(io_in, Uint8)",
+            "print(io_out, char(memory[ptr]))",
+            "while (memory[ptr] != 0)",
+            "end",
+        ],
     ]
     return strings[as][op.code]
 end
