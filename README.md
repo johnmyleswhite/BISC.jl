@@ -44,6 +44,10 @@ And here's an example of translating Brainfuck to C code, compiling the C
 code to machine code, and executing the machine code:
 
 ```
+require("BISC.jl")
+
+import BISC: parse, interpret, translate
+
 text = readall(
     Pkg.dir(
         "BISC",
