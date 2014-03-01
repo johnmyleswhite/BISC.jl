@@ -15,14 +15,14 @@ and Ook! are enumerated below along with their equivalents in C and Julia:
 
 |--------|-------------|-------------|----------------------|------------------------------------|
 | Opcode | Brainfuck   | Ook!        | C                    | Julia                              |
-| 1      | >           | Ook. Ook?   | ++ptr;               | ptr += 1                           |
-| 2      | <           | Ook? Ook.   | --ptr;               | ptr -= 1                           |
-| 3      | +           | Ook. Ook.   | ++*ptr;              | memory[ptr] += 1                   |
-| 4      | -           | Ook! Ook!   | --*ptr;              | memory[ptr] -= 1                   |
-| 5      | ,           | Ook. Ook!   | *ptr = getchar();    | memory[ptr] = read(io_in, Uint8)   |
-| 6      | .           | Ook! Ook.   | putchar(*ptr);       | write(io_out, memory[ptr])         |
-| 7      | [           | Ook! Ook?   | while (*ptr) {       | while p != 0x00                    |
-| 8      | ]           | Ook? Ook!   | }                    | end                                |
+| 1      | `>`         | `Ook. Ook?` | `++ptr;`             | `ptr += 1`                         |
+| 2      | `<`         | `Ook? Ook.` | `--ptr;`             | `ptr -= 1`                         |
+| 3      | `+`         | `Ook. Ook.` | `++*ptr;`            | `memory[ptr] += 1`                 |
+| 4      | `-`         | `Ook! Ook!` | `--*ptr;`            | `memory[ptr] -= 1`                 |
+| 5      | `,`         | `Ook. Ook!` | `*ptr = getchar();`  | `memory[ptr] = read(io_in, Uint8)` |
+| 6      | `.`         | `Ook! Ook.` | `putchar(*ptr);`     | `write(io_out, memory[ptr])`       |
+| 7      | `[`         | `Ook! Ook?` | `while (*ptr) {`     | `while p != 0x00`                  |
+| 8      | `]`         | `Ook? Ook!` | `}`                  | `end`                              |
 
 Note that the instructions here are enumerated in a slightly unconventional
 order for Brainfuck: in most listings of Brainfuck operations `.` precedes `,`
