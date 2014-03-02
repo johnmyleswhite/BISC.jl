@@ -75,14 +75,17 @@ run(`$exefile`)
 
 # Operations
 
-BISC.jl provides three basic functions:
+BISC.jl provides four basic functions:
 
 * `parse`: Parse a string of a language that can be converted to BISC ops.
 * `interpret`: Interpret a vector of BISC ops.
 * `translate`: Translate a vector of BISC ops into code in C, Brainfuck or Ook!.
+* `optimize`: Translate a vector of BISC ops into a vector of optimized
+              extended BISC ops, which provide the same semantics as BISC ops,
+              but are better suited for execution on x86 machines.
 
-These functions each allow a few keyword arguments to provide fine-grained
-control over their behaviors.
+These functions each take in a few keyword arguments to provide fine-grained
+control over their behaviors:
 
 * `parse`
     * Positional Arguments
@@ -94,9 +97,22 @@ control over their behaviors.
     * Return Values
         * `ops::Vector{BISCOp}`: The translated program as a list of BISC ops.
 
-* `interpret`
+* `interpret` for BISCOp's
     * Positional Arguments
         * `ops::Vector{BISCOp}`: A vector of BISC ops to be executed.
+    * Keyword Arguments
+        * `debug::Bool = false`: Should the state of the interpreter be shown?
+        * `io_in::IO = STDIN`: Where should input for the interpreter come from?
+        * `io_out::IO = STDOUT`: Where should output from the interpreter go?
+        * `as::Symbol = :brainfuck`: Which language should be used to show debug
+                                     information?
+    * Return Values
+        * `nothing::Nothing`
+
+* `interpret` for ExtendedBISCOp's
+    * Positional Arguments
+        * `ops::Vector{ExtendedBISCOp}`: A vector of extended BISC ops to be
+                                         executed.
     * Keyword Arguments
         * `debug::Bool = false`: Should the state of the interpreter be shown?
         * `io_in::IO = STDIN`: Where should input for the interpreter come from?
@@ -115,6 +131,14 @@ control over their behaviors.
             * `:ook`
     * Return Values
         * `code::String`: An equivalent program in the requested language.
+
+* `optimize`
+    * Positional Arguments
+        * `ops::Vector{BISCOp}`: A vector of BISC ops to be translated.
+    * Return Values
+        * `extops::Vector{ExtendedBISCOp}`: A vector of extended BISC ops that
+                                            can be interpreted more efficiently
+                                            than BISC ops.
 
 # License
 
